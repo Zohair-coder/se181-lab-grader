@@ -1,0 +1,66 @@
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+public class UniversityTest {
+
+    public static final String NAME = "Boris Valerstein";
+    public static final String QUICK_ID = "bv49";
+    public static final String COURSE_NAME = "ENGR230";
+    University university;
+
+    @BeforeEach
+    void setup() {
+        university = new University();
+    }
+
+    // "Z" in ZOMBIES for zero
+    @Test
+    void university_has_zero_students_initially() {
+        assertTrue(university.getStudents().isEmpty());
+    }
+
+    // "O" in ZOMBIES for one
+    @Test
+    void add_student_to_university() {
+        university.addStudent(QUICK_ID, NAME);
+        assertEquals(NAME, university.getStudents().get(QUICK_ID).getName());
+    }
+
+    // "M" in ZOMBIES for many
+    @Test
+    void add_two_students_to_university() {
+        university.addStudent(QUICK_ID, NAME);
+        university.addStudent((QUICK_ID + "y"), NAME + "y");
+        assertEquals(NAME + "y", university.getStudents().get(QUICK_ID + "y").getName());
+    }
+
+    @Test
+    void enroll_student_in_course() {
+        university.addStudent(QUICK_ID, NAME);
+        university.enrollStudent(QUICK_ID, COURSE_NAME);
+        Student actual = university.getStudents().get(QUICK_ID);
+        assertEquals(COURSE_NAME, actual.getCourses().get(0));
+    }
+
+    @Test
+    void enroll_student_in_two_courses() {
+        university.addStudent(QUICK_ID, NAME);
+        university.enrollStudent(QUICK_ID, COURSE_NAME);
+        university.enrollStudent(QUICK_ID, COURSE_NAME + "beef");
+        Student actual = university.getStudents().get(QUICK_ID);
+        assertEquals(COURSE_NAME, actual.getCourses().get(0));
+        assertEquals(COURSE_NAME + "beef", actual.getCourses().get(1));
+    }
+
+    @Test
+    void remove_student_from_course() {
+        university.addStudent(QUICK_ID, NAME);
+        university.enrollStudent(QUICK_ID, COURSE_NAME);
+        university.withdrawStudent(QUICK_ID, COURSE_NAME);
+        Student actual = university.getStudents().get(QUICK_ID);
+        assertTrue(actual.getCourses().isEmpty());
+    }
+}
