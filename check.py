@@ -39,7 +39,7 @@ class Homework:
             points_to_deduct += 1
 
         if not self.is_import_assertion_present():
-            print("Not importing asserts")
+            print("-9: Not importing asserts")
             points_to_deduct = 9
 
         print()

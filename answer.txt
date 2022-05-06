@@ -5,62 +5,57 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class UniversityTest {
-
-    public static final String NAME = "Boris Valerstein";
-    public static final String QUICK_ID = "bv49";
-    public static final String COURSE_NAME = "ENGR230";
-    University university;
+    public static final String NAME = "Robert Silver";
+    public static final String QUICK_ID = "rls442";
+    private static final String COURSE_NANE = "SE 181";
+    University univ;
 
     @BeforeEach
-    void setup() {
-        university = new University();
-    }
-
-    // "Z" in ZOMBIES for zero
-    @Test
-    void university_has_zero_students_initially() {
-        assertTrue(university.getStudents().isEmpty());
-    }
-
-    // "O" in ZOMBIES for one
-    @Test
-    void add_student_to_university() {
-        university.addStudent(QUICK_ID, NAME);
-        assertEquals(NAME, university.getStudents().get(QUICK_ID).getName());
-    }
-
-    // "M" in ZOMBIES for many
-    @Test
-    void add_two_students_to_university() {
-        university.addStudent(QUICK_ID, NAME);
-        university.addStudent((QUICK_ID + "y"), NAME + "y");
-        assertEquals(NAME + "y", university.getStudents().get(QUICK_ID + "y").getName());
+    void setUp() {
+        univ = new University();
     }
 
     @Test
-    void enroll_student_in_course() {
-        university.addStudent(QUICK_ID, NAME);
-        university.enrollStudent(QUICK_ID, COURSE_NAME);
-        Student actual = university.getStudents().get(QUICK_ID);
-        assertEquals(COURSE_NAME, actual.getCourses().get(0));
+    void university_has_no_students_to_start() {
+        assertTrue(univ.getStudents().isEmpty());
     }
 
     @Test
-    void enroll_student_in_two_courses() {
-        university.addStudent(QUICK_ID, NAME);
-        university.enrollStudent(QUICK_ID, COURSE_NAME);
-        university.enrollStudent(QUICK_ID, COURSE_NAME + "beef");
-        Student actual = university.getStudents().get(QUICK_ID);
-        assertEquals(COURSE_NAME, actual.getCourses().get(0));
-        assertEquals(COURSE_NAME + "beef", actual.getCourses().get(1));
+    void adding_student_into_univ() {
+        univ.addStudent(QUICK_ID, NAME);
+        assertEquals(NAME, univ.getStudents().get(QUICK_ID).getName());
     }
 
     @Test
-    void remove_student_from_course() {
-        university.addStudent(QUICK_ID, NAME);
-        university.enrollStudent(QUICK_ID, COURSE_NAME);
-        university.withdrawStudent(QUICK_ID, COURSE_NAME);
-        Student actual = university.getStudents().get(QUICK_ID);
+    void adding_two_students_into_univ() {
+        univ.addStudent(QUICK_ID, NAME);
+        univ.addStudent(QUICK_ID + "1", NAME + "1");
+        assertEquals(NAME + "1", univ.getStudents().get(QUICK_ID + "1").getName());
+    }
+
+    @Test
+    void enrolling_student_into_a_course() {
+        univ.addStudent(QUICK_ID, NAME);
+        univ.enrollStudent(QUICK_ID, COURSE_NANE);
+        Student actual = univ.getStudents().get(QUICK_ID);
+        assertEquals(COURSE_NANE, actual.getCourses().get(0));
+    }
+
+    @Test
+    void enrolling_student_into_two_courses() {
+        univ.addStudent(QUICK_ID, NAME);
+        univ.enrollStudent(QUICK_ID, COURSE_NANE);
+        univ.enrollStudent(QUICK_ID, COURSE_NANE + "1");
+        Student actual = univ.getStudents().get(QUICK_ID);
+        assertEquals(COURSE_NANE, actual.getCourses().get(0));
+        assertEquals(COURSE_NANE + "1", actual.getCourses().get(1));
+
+    @Test
+    void unenroll_student_from_course() {
+        univ.addStudent(QUICK_ID, NAME);
+        univ.enrollStudent(QUICK_ID, COURSE_NANE);
+        univ.unenrollStudent(QUICK_ID, COURSE_NANE);
+        Student actual = univ.getStudents().get(QUICK_ID);
         assertTrue(actual.getCourses().isEmpty());
     }
 }
